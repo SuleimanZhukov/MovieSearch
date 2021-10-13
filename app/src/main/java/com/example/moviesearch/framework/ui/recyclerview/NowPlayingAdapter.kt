@@ -32,9 +32,9 @@ class NowPlayingAdapter(
     }
 
     override fun onBindViewHolder(holder: NowPlayingViewHolder, position: Int) {
-        holder.itemView.apply {
-
-        }
+        holder.title.text = nowPlayingCards[position].title
+        holder.date.text = nowPlayingCards[position].date
+        holder.rating.text = nowPlayingCards[position].rating
     }
 
     override fun getItemCount(): Int {
