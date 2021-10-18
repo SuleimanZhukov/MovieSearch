@@ -5,7 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.moviesearch.AppState
 import com.example.moviesearch.R
 import com.example.moviesearch.databinding.FragmentMainBinding
 import com.example.moviesearch.framework.ui.recyclerview.NowPlayingAdapter
@@ -15,10 +18,13 @@ import com.example.moviesearch.framework.ui.recyclerview.UpcomingCardView
 
 class MainFragment : Fragment() {
 
+    private lateinit var viewModel: MainViewModel
+
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -49,6 +55,12 @@ class MainFragment : Fragment() {
         binding.recyclerViewUpcoming.adapter = upcomingAdapter
         binding.recyclerViewNowPlaying.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.recyclerViewUpcoming.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+        viewModel.getLiveData().observe(viewLifecycleOwner, { renderData(it) })
+        viewModel.getMovies()
+    }
+
+    private fun renderData(appState: AppState) = with(binding) {
 
     }
 
