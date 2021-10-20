@@ -1,7 +1,11 @@
 package com.example.moviesearch.model.repository
 
-interface Repository {
-    fun getMoviesFromLocalSource()
+import com.example.moviesearch.model.entities.Movie
 
-    fun getMoviesFromServer()
+interface Repository {
+    fun getTheMovieFromServer(): Movie
+
+    fun getNowPlayingMoviesFromLocalSource(): List<Movie>
+
+    fun getUpcomingMoviesFromLocalSource(): List<Movie>
 }
