@@ -23,6 +23,25 @@ class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
 
+    private var nowPlayingList = mutableListOf(
+        NowPlayingCardView("Avengers", R.drawable.avengers_poster, "21/07/2022", "8.9"),
+        NowPlayingCardView("Spider-Man", R.drawable.avengers_poster, "16/12/2016", "7.4"),
+        NowPlayingCardView("Harry Potter", R.drawable.avengers_poster, "31/02/2019", "2.7"),
+        NowPlayingCardView("Star Wars", R.drawable.avengers_poster, "21/07/2022", "5.8"),
+        NowPlayingCardView("Knives Out", R.drawable.avengers_poster, "21/07/2022", "8.1"),
+        NowPlayingCardView("The Twilight", R.drawable.avengers_poster, "21/07/2022", "0.0")
+    )
+
+    private var upcomingList = mutableListOf(
+        UpcomingCardView("Ultron Strikes Back", R.drawable.avengers_poster, "21/07/2022"),
+        UpcomingCardView("Zootopia", R.drawable.avengers_poster, "21/07/2022"),
+        UpcomingCardView("Shrek", R.drawable.avengers_poster, "21/07/2022"),
+        UpcomingCardView("Batman", R.drawable.avengers_poster, "21/07/2022")
+    )
+
+    private var nowPlayingAdapter = NowPlayingAdapter(nowPlayingList)
+    private var upcomingAdapter = UpcomingAdapter(upcomingList)
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         _binding = FragmentMainBinding.inflate(inflater, container, false)
@@ -31,25 +50,6 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        var nowPlayingList = mutableListOf(
-            NowPlayingCardView("Avengers", 0, "21/07/2022", "8.9"),
-            NowPlayingCardView("Spider-Man", 1, "16/12/2016", "7.4"),
-            NowPlayingCardView("Harry Potter", 2, "31/02/2019", "2.7"),
-            NowPlayingCardView("Star Wars", 3, "21/07/2022", "5.8"),
-            NowPlayingCardView("Knives Out", 4, "21/07/2022", "8.1"),
-            NowPlayingCardView("The Twilight", 5, "21/07/2022", "0.0")
-        )
-
-        var upcomingList = mutableListOf(
-            UpcomingCardView("Ultron Strikes Back", 6, "21/07/2022"),
-            UpcomingCardView("Zootopia", 7, "21/07/2022"),
-            UpcomingCardView("Shrek", 8, "21/07/2022"),
-            UpcomingCardView("Batman", 9, "21/07/2022")
-        )
-
-        var nowPlayingAdapter = NowPlayingAdapter(nowPlayingList)
-        var upcomingAdapter = UpcomingAdapter(upcomingList)
 
         binding.recyclerViewNowPlaying.adapter = nowPlayingAdapter
         binding.recyclerViewUpcoming.adapter = upcomingAdapter
@@ -61,7 +61,11 @@ class MainFragment : Fragment() {
     }
 
     private fun renderData(appState: AppState) = with(binding) {
-
+        when (appState) {
+            is AppState.Success -> {
+                
+            }
+        }
     }
 
     companion object {

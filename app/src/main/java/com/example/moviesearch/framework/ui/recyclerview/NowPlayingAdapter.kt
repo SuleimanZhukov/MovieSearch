@@ -4,37 +4,47 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviesearch.R
+import com.example.moviesearch.databinding.CardViewNowPlayingBinding
+import com.example.moviesearch.databinding.FragmentDetailsBinding
+import com.example.moviesearch.model.entities.Movie
 
 class NowPlayingAdapter(
     var nowPlayingCards: List<NowPlayingCardView>
 ) : RecyclerView.Adapter<NowPlayingAdapter.NowPlayingViewHolder>() {
 
+    private var movieData: List<Movie> = listOf()
+
+    private var _binding: CardViewNowPlayingBinding? = null
+    private val binding get() = _binding!!
+
+    fun setMovies(data: List<Movie>) {
+        movieData = data
+        notifyDataSetChanged()
+    }
+
     inner class NowPlayingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bind(movie: Movie) = with(binding) {
+            binding.cardViewNowPlayingTitle.text = movie.title
+//            binding.cardViewNowPlayingImage = movie.poster
+            binding.cardViewNowPlayingDate.text = movie.date
+            binding.cardViewNowPlayingRating.text = movie.rating
 
-        val title: TextView = itemView.findViewById<TextView>(R.id.card_view_now_playing_title)
-//        val poster: ImageView = itemView.findViewById<>(R.id.card_view_now_playing_image)
-        val date: TextView = itemView.findViewById<TextView>(R.id.card_view_now_playing_date)
-        val rating: TextView = itemView.findViewById<TextView>(R.id.card_view_now_playing_rating)
-
-        fun bind(nowPlaying: NowPlayingCardView) {
-            title.text = nowPlaying.title
-//            poster.text = nowPlaying.poster
-            date.text = nowPlaying.date
-            rating.text = nowPlaying.rating
+            binding.cardViewNowPlayingImage.setOnClickListener {
+                Toast.makeText(itemView.context, movie.title, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NowPlayingViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.card_view_now_playing, parent, false)
-        return NowPlayingViewHolder(view)
+        _binding = CardViewNowPlayingBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return NowPlayingViewHolder(binding.root)
     }
 
     override fun onBindViewHolder(holder: NowPlayingViewHolder, position: Int) {
-        holder.title.text = nowPlayingCards[position].title
-        holder.date.text = nowPlayingCards[position].date
-        holder.rating.text = nowPlayingCards[position].rating
+        holder.bind(movieData[position])
     }
 
     override fun getItemCount(): Int {

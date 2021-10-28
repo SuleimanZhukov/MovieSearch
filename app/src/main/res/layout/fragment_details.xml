@@ -36,7 +36,7 @@
         android:layout_width="135dp"
         android:layout_height="200dp"
         android:layout_marginTop="16dp"
-        android:background="@color/black"
+        android:src="@drawable/avengers_poster"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/original_title" />
 
