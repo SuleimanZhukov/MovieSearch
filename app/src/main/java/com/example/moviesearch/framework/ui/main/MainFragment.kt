@@ -1,20 +1,20 @@
 package com.example.moviesearch.framework.ui.main
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.moviesearch.AppState
 import com.example.moviesearch.R
 import com.example.moviesearch.databinding.FragmentMainBinding
+import com.example.moviesearch.framework.ui.DetailsFragment
 import com.example.moviesearch.framework.ui.recyclerview.NowPlayingAdapter
-import com.example.moviesearch.framework.ui.recyclerview.NowPlayingCardView
-import com.example.moviesearch.framework.ui.recyclerview.UpcomingAdapter
-import com.example.moviesearch.framework.ui.recyclerview.UpcomingCardView
+import com.example.moviesearch.model.entities.Movie
+import com.example.moviesearch.model.repository.RepositoryImpl
 
 class MainFragment : Fragment() {
 
@@ -23,24 +23,7 @@ class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
 
-    private var nowPlayingList = mutableListOf(
-        NowPlayingCardView("Avengers", R.drawable.avengers_poster, "21/07/2022", "8.9"),
-        NowPlayingCardView("Spider-Man", R.drawable.avengers_poster, "16/12/2016", "7.4"),
-        NowPlayingCardView("Harry Potter", R.drawable.avengers_poster, "31/02/2019", "2.7"),
-        NowPlayingCardView("Star Wars", R.drawable.avengers_poster, "21/07/2022", "5.8"),
-        NowPlayingCardView("Knives Out", R.drawable.avengers_poster, "21/07/2022", "8.1"),
-        NowPlayingCardView("The Twilight", R.drawable.avengers_poster, "21/07/2022", "0.0")
-    )
-
-    private var upcomingList = mutableListOf(
-        UpcomingCardView("Ultron Strikes Back", R.drawable.avengers_poster, "21/07/2022"),
-        UpcomingCardView("Zootopia", R.drawable.avengers_poster, "21/07/2022"),
-        UpcomingCardView("Shrek", R.drawable.avengers_poster, "21/07/2022"),
-        UpcomingCardView("Batman", R.drawable.avengers_poster, "21/07/2022")
-    )
-
-    private var nowPlayingAdapter = NowPlayingAdapter(nowPlayingList)
-    private var upcomingAdapter = UpcomingAdapter(upcomingList)
+    private lateinit var nowPlayingAdapter: NowPlayingAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
@@ -52,7 +35,6 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.recyclerViewNowPlaying.adapter = nowPlayingAdapter
-        binding.recyclerViewUpcoming.adapter = upcomingAdapter
         binding.recyclerViewNowPlaying.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.recyclerViewUpcoming.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
@@ -60,12 +42,42 @@ class MainFragment : Fragment() {
         viewModel.getMovies()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
     private fun renderData(appState: AppState) = with(binding) {
         when (appState) {
             is AppState.Success -> {
-                
+                nowPlayingAdapter = NowPlayingAdapter(object : OnItemViewClickListener {
+                    override fun onItemViewClick(movie: Movie) {
+                        val manager = activity?.supportFragmentManager
+                        manager?.let {
+                            val bundle = Bundle().apply {
+                                putParcelable(DetailsFragment.BUNDLE_EXTRA, movie)
+                            }
+                            manager.beginTransaction()
+                                .add(R.id.mainContainer, DetailsFragment.newInstance(bundle))
+                                .addToBackStack("")
+                                .commitAllowingStateLoss()
+                        }
+                    }
+                }).apply {
+                    setMovies(appState.moviesData)
+                }
+            }
+            is AppState.Loading -> {
+                //Loading
+            }
+            is AppState.Error -> {
+                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    interface OnItemViewClickListener {
+        fun onItemViewClick(movie: Movie)
     }
 
     companion object {

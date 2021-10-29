@@ -21,6 +21,11 @@ class DetailsFragment : Fragment() {
         return binding.root
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
     companion object {
         const val BUNDLE_EXTRA = "movie"
 

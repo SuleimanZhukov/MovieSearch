@@ -1,11 +1,15 @@
 package com.example.moviesearch.model.entities
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class Movie(
     val title: String = "Title",
     val poster: Int = 0,
     val date: String = "0/0/0",
     val rating: String = "0"
-)
+) : Parcelable
 
 fun getNowPlayingMovies(): List<Movie> {
     return mutableListOf(
