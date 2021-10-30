@@ -13,9 +13,7 @@ import com.example.moviesearch.databinding.FragmentDetailsBinding
 import com.example.moviesearch.framework.ui.main.MainFragment
 import com.example.moviesearch.model.entities.Movie
 
-class NowPlayingAdapter(
-    private var itemClickListener: MainFragment.OnItemViewClickListener
-) : RecyclerView.Adapter<NowPlayingAdapter.NowPlayingViewHolder>() {
+class NowPlayingAdapter() : RecyclerView.Adapter<NowPlayingAdapter.NowPlayingViewHolder>() {
 
     private var movieData: List<Movie> = listOf()
 
@@ -29,11 +27,11 @@ class NowPlayingAdapter(
     inner class NowPlayingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(movie: Movie) = with(binding) {
             binding.cardViewNowPlayingTitle.text = movie.title
-            binding.cardViewNowPlayingImage.setImageResource(movie.poster)
+//            binding.cardViewNowPlayingImage.setImageResource(movie.poster)
             binding.cardViewNowPlayingDate.text = movie.date
             binding.cardViewNowPlayingRating.text = movie.rating
 
-            root.setOnClickListener {itemClickListener.onItemViewClick(movie)}
+//            root.setOnClickListener {itemClickListener.onItemViewClick(movie)}
         }
     }
 

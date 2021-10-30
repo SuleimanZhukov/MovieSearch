@@ -12,7 +12,9 @@ import com.example.moviesearch.R
 import com.example.moviesearch.databinding.FragmentMainBinding
 import com.example.moviesearch.framework.ui.DetailsFragment
 import com.example.moviesearch.framework.ui.recyclerview.NowPlayingAdapter
+import com.example.moviesearch.framework.ui.recyclerview.UpcomingAdapter
 import com.example.moviesearch.model.entities.Movie
+import com.example.moviesearch.model.entities.getNowPlayingMovies
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainFragment : Fragment() {
@@ -22,6 +24,7 @@ class MainFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var nowPlayingAdapter: NowPlayingAdapter
+    private lateinit var upcomingAdapter: UpcomingAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
@@ -31,7 +34,9 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        binding.recyclerViewNowPlaying.adapter = nowPlayingAdapter
+        nowPlayingAdapter = NowPlayingAdapter()
+        upcomingAdapter = UpcomingAdapter()
+
         binding.recyclerViewNowPlaying.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.recyclerViewUpcoming.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
@@ -47,23 +52,30 @@ class MainFragment : Fragment() {
     private fun renderData(appState: AppState) = with(binding) {
         when (appState) {
             is AppState.Success -> {
-                nowPlayingAdapter = NowPlayingAdapter(object : OnItemViewClickListener {
-                    override fun onItemViewClick(movie: Movie) {
-                        val manager = activity?.supportFragmentManager
-                        manager?.let {
-                            val bundle = Bundle().apply {
-                                putParcelable(DetailsFragment.BUNDLE_EXTRA, movie)
-                            }
-                            manager.beginTransaction()
-                                .add(R.id.mainContainer, DetailsFragment.newInstance(bundle))
-                                .addToBackStack("")
-                                .commitAllowingStateLoss()
-                        }
-                    }
-                }).apply {
-                    setMovies(appState.moviesData)
-                }
+                nowPlayingAdapter.setMovies(appState.moviesData)
+                upcomingAdapter.setMovies(appState.moviesData)
+                binding.recyclerViewNowPlaying.adapter = nowPlayingAdapter
+                binding.recyclerViewUpcoming.adapter = upcomingAdapter
+
             }
+//            {
+//                nowPlayingAdapter = NowPlayingAdapter(object : OnItemViewClickListener {
+//                    override fun onItemViewClick(movie: Movie) {
+//                        val manager = activity?.supportFragmentManager
+//                        manager?.let {
+//                            val bundle = Bundle().apply {
+//                                putParcelable(DetailsFragment.BUNDLE_EXTRA, movie)
+//                            }
+//                            manager.beginTransaction()
+//                                .add(R.id.mainContainer, DetailsFragment.newInstance(bundle))
+//                                .addToBackStack("")
+//                                .commitAllowingStateLoss()
+//                        }
+//                    }
+//                }).apply {
+//                    setMovies(appState.moviesData)
+//                }
+//            }
             is AppState.Loading -> {
                 //Loading
             }

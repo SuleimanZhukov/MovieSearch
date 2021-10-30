@@ -9,16 +9,20 @@ import com.example.moviesearch.databinding.CardViewUpcomingBinding
 import com.example.moviesearch.framework.ui.main.MainFragment
 import com.example.moviesearch.model.entities.Movie
 
-class UpcomingAdapter(
-    private var itemClickListener: MainFragment.OnItemViewClickListener
-) : RecyclerView.Adapter<UpcomingAdapter.UpcomingViewHolder>() {
+class UpcomingAdapter() : RecyclerView.Adapter<UpcomingAdapter.UpcomingViewHolder>() {
 
     private lateinit var binding: CardViewUpcomingBinding
     private var movieData: List<Movie> = listOf()
 
+    fun setMovies(data: List<Movie>) {
+        movieData = data
+        notifyDataSetChanged()
+    }
+
     inner class UpcomingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(movie: Movie) = with(binding) {
-
+            binding.cardViewUpcomingTitle.text = movie.title
+            binding.cardViewUpcomingDate.text = movie.date
         }
     }
 
