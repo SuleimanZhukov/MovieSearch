@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.moviesearch.AppState
 import com.example.moviesearch.R
@@ -14,19 +13,17 @@ import com.example.moviesearch.databinding.FragmentMainBinding
 import com.example.moviesearch.framework.ui.DetailsFragment
 import com.example.moviesearch.framework.ui.recyclerview.NowPlayingAdapter
 import com.example.moviesearch.model.entities.Movie
-import com.example.moviesearch.model.repository.RepositoryImpl
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainFragment : Fragment() {
 
-    private lateinit var viewModel: MainViewModel
-
+    private val viewModel: MainViewModel by viewModel()
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var nowPlayingAdapter: NowPlayingAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -34,7 +31,7 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.recyclerViewNowPlaying.adapter = nowPlayingAdapter
+//        binding.recyclerViewNowPlaying.adapter = nowPlayingAdapter
         binding.recyclerViewNowPlaying.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.recyclerViewUpcoming.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
