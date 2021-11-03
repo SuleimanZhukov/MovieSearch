@@ -58,24 +58,6 @@ class MainFragment : Fragment() {
                 binding.recyclerViewUpcoming.adapter = upcomingAdapter
 
             }
-//            {
-//                nowPlayingAdapter = NowPlayingAdapter(object : OnItemViewClickListener {
-//                    override fun onItemViewClick(movie: Movie) {
-//                        val manager = activity?.supportFragmentManager
-//                        manager?.let {
-//                            val bundle = Bundle().apply {
-//                                putParcelable(DetailsFragment.BUNDLE_EXTRA, movie)
-//                            }
-//                            manager.beginTransaction()
-//                                .add(R.id.mainContainer, DetailsFragment.newInstance(bundle))
-//                                .addToBackStack("")
-//                                .commitAllowingStateLoss()
-//                        }
-//                    }
-//                }).apply {
-//                    setMovies(appState.moviesData)
-//                }
-//            }
             is AppState.Loading -> {
                 //Loading
             }
