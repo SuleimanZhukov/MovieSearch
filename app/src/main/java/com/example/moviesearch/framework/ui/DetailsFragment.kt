@@ -9,6 +9,7 @@ import com.example.moviesearch.R
 import com.example.moviesearch.databinding.FragmentDetailsBinding
 import com.example.moviesearch.framework.ui.main.MainFragment
 
+private const val API_KEY = "9404872446d5cae8afbefd38b24ce36a"
 
 class DetailsFragment : Fragment() {
 
