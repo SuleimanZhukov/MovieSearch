@@ -1,7 +1,7 @@
 package com.example.moviesearch.model.restentities
 
 data class MovieDTO(
-    val original_title: String = "Title",
+    val original_title: String = "Original Title",
     val title: String = "Название",
     val release_date: String = "0-0-0",
     val vote_average: Float = 0.0f,

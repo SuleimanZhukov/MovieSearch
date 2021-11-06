@@ -1,5 +1,6 @@
 package com.example.moviesearch.di
 
+import com.example.moviesearch.framework.ui.details.DetailsViewModel
 import com.example.moviesearch.framework.ui.main.MainViewModel
 import com.example.moviesearch.model.repository.Repository
 import com.example.moviesearch.model.repository.RepositoryImpl
@@ -11,4 +12,5 @@ val appModule = module {
     single<Repository> { RepositoryImpl() }
 
     viewModel { MainViewModel(get()) }
+    viewModel { DetailsViewModel(get()) }
 }

@@ -13,7 +13,8 @@ import javax.net.ssl.HttpsURLConnection
 
 object MovieLoader {
 
-    fun loadMovie(title: String): MovieDTO {
+    fun loadMovie(name: String): MovieDTO? {
+        val title = name.replace(' ', '+')
         try {
             val uri = URL("https://api.themoviedb.org/3/search/movie?api_key=")
 
@@ -21,7 +22,7 @@ object MovieLoader {
             try {
                 urlConnection = uri.openConnection() as HttpsURLConnection
                 urlConnection.requestMethod = "GET"
-                urlConnection.addRequestProperty("API Key (v3 auth)", "9404872446d5cae8afbefd38b24ce36a&language=ru&query=${title}")
+                urlConnection.addRequestProperty("v3 auth", "9404872446d5cae8afbefd38b24ce36a&language=ru&query=${title}")
                 urlConnection.readTimeout = 10000
 
                 val reader = BufferedReader(InputStreamReader(urlConnection.inputStream))

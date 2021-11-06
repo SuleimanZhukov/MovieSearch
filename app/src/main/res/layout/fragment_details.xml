@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".framework.ui.DetailsFragment">
+    android:background="@color/white"
+    tools:context=".framework.ui.details.DetailsFragment">
 
     <TextView
-        android:id="@+id/russian_title"
+        android:id="@+id/russian_title_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -20,7 +21,7 @@
         tools:text="Мстители" />
 
     <TextView
-        android:id="@+id/original_title"
+        android:id="@+id/original_title_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -28,7 +29,7 @@
         android:textSize="24sp"
         android:textStyle="italic"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/russian_title"
+        app:layout_constraintTop_toBottomOf="@+id/russian_title_details"
         tools:text="Avengers" />
 
     <ImageView
@@ -38,7 +39,7 @@
         android:layout_marginTop="16dp"
         android:src="@drawable/avengers_poster"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/original_title" />
+        app:layout_constraintTop_toBottomOf="@+id/original_title_details" />
 
     <TextView
         android:id="@+id/description"
@@ -62,7 +63,7 @@
         app:layout_constraintBottom_toTopOf="@+id/description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/poster_details"
-        app:layout_constraintTop_toBottomOf="@+id/original_title"
+        app:layout_constraintTop_toBottomOf="@+id/original_title_details"
         app:layout_constraintVertical_bias="0.46">
 
         <TextView
