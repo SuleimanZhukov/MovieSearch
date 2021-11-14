@@ -42,6 +42,7 @@ class DetailsFragment : Fragment() {
                         }
                         is AppState.Success -> {
                             russianTitleDetails.text = appState.moviesData[0].title
+                            originalTitleDetails.text = appState.moviesData[0].originalTitle
                             releaseDateDetails.text = appState.moviesData[0].releaseDate
                             ratingDetails.text = appState.moviesData[0].voteAverage.toString()
                             description.text = appState.moviesData[0].overview

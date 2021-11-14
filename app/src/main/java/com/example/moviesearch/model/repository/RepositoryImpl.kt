@@ -9,10 +9,11 @@ class RepositoryImpl : Repository {
     override fun getTheMovieFromServer(title: String): Movie {
         val dto = MovieLoader.loadMovie(title)
         return Movie(
-            title = dto?.title ?: "Title",
-            originalTitle = dto?.original_title ?: "Название",
-            releaseDate = dto?.release_date ?: "0-0-0",
-            voteAverage = dto?.vote_average ?: 0.0f,
+            title = dto!!.results[0]?.title ?: "Title",
+            originalTitle = dto!!.results[0]?.original_title ?: "Название",
+            releaseDate = dto!!.results[0]?.release_date ?: "0-0-0",
+            voteAverage = dto!!.results[0]?.vote_average ?: 0.0f,
+            overview = dto!!.results[0]?.overview ?: "Description"
         )
     }
 
