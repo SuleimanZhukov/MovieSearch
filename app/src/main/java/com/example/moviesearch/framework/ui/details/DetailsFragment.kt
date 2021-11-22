@@ -1,25 +1,16 @@
 package com.example.moviesearch.framework.ui.details
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import coil.load
 import com.example.moviesearch.AppState
 import com.example.moviesearch.databinding.FragmentDetailsBinding
 import com.example.moviesearch.model.entities.Movie
 import com.example.moviesearch.model.restentities.MovieDTO
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
-const val DETAILS_INTENT_FILTER = "DETAILS_INTENT_FILTER"
-const val DETAILS_RUSSIAN_TITLE = "DETAILS_RUSSIAN_TITLE"
-const val DETAILS_ORIGINAL_TITLE = "DETAILS_ORIGINAL_TITLE"
-const val DETAILS_RELEASE_DATE = "DETAILS_RELEASE_DATE"
-const val DETAILS_RATING = "DETAILS_RATING"
-const val DETAILS_DESCRIPTION = "DETAILS_DESCRIPTION"
 
 class DetailsFragment : Fragment() {
 
@@ -55,6 +46,8 @@ class DetailsFragment : Fragment() {
                             releaseDateDetails.text = appState.moviesData[0].releaseDate
                             ratingDetails.text = appState.moviesData[0].voteAverage.toString()
                             description.text = appState.moviesData[0].overview
+                            val posterPath = appState.moviesData[0].posterPath
+                            posterDetails.load("https://image.tmdb.org/t/p/w500${posterPath}")
                         }
                     }
                 })

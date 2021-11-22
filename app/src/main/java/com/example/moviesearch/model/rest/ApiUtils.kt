@@ -17,7 +17,7 @@ object ApiUtils {
         httpClient.addInterceptor { chain ->
             val original = chain.request()
             val request = original.newBuilder()
-                .header("TMDB", "9404872446d5cae8afbefd38b24ce36a")
+                .header("Authorization", "9404872446d5cae8afbefd38b24ce36a")
                 .method(original.method(), original.body())
                 .build()
 
