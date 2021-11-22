@@ -4,10 +4,11 @@ import com.example.moviesearch.model.MovieLoader
 import com.example.moviesearch.model.entities.Movie
 import com.example.moviesearch.model.entities.getNowPlayingMovies
 import com.example.moviesearch.model.entities.getUpcomingMovies
+import com.example.moviesearch.model.rest.MovieRepo
 
 class RepositoryImpl : Repository {
     override fun getTheMovieFromServer(title: String): Movie {
-        val dto = MovieLoader.loadMovie(title)
+        val dto = MovieRepo.api.getMovie("ru", title).execute().body()
         return Movie(
             title = dto!!.results[0]?.title ?: "Title",
             originalTitle = dto!!.results[0]?.original_title ?: "Название",
