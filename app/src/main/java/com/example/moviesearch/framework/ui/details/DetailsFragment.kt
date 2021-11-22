@@ -12,7 +12,6 @@ import com.example.moviesearch.AppState
 import com.example.moviesearch.databinding.FragmentDetailsBinding
 import com.example.moviesearch.model.entities.Movie
 import com.example.moviesearch.model.restentities.MovieDTO
-import com.example.moviesearch.model.restentities.results
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 const val DETAILS_INTENT_FILTER = "DETAILS_INTENT_FILTER"
@@ -29,19 +28,6 @@ class DetailsFragment : Fragment() {
     private var _binding: FragmentDetailsBinding? = null
     private val binding get() = _binding!!
 
-    private val receiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(p0: Context?, intent: Intent?) {
-            renderData(MovieDTO(results(
-                intent.getStringExtra(DETAILS_RUSSIAN_TITLE),
-                intent.getStringExtra(DETAILS_ORIGINAL_TITLE),
-                intent.getStringExtra(DETAILS_RELEASE_DATE),
-                intent.getStringExtra(DETAILS_RATING),
-                intent.getStringExtra(DETAILS_DESCRIPTION)
-            )))
-        }
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentDetailsBinding.inflate(inflater, container, false)
@@ -50,31 +36,31 @@ class DetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        val movie = arguments?.getParcelable<Movie>(BUNDLE_EXTRA)
-//        movie?.let {
-//            with(binding) {
-//                originalTitleDetails.text = it.originalTitle
-//
-//                viewModel.liveDataToObserve.observe(viewLifecycleOwner, { appState ->
-//                    when (appState) {
-//                        is AppState.Error -> {
-//                            //sda
-//                        }
-//                        is AppState.Loading -> {
-//                            //sdf
-//                        }
-//                        is AppState.Success -> {
-//                            russianTitleDetails.text = appState.moviesData[0].title
-//                            originalTitleDetails.text = appState.moviesData[0].originalTitle
-//                            releaseDateDetails.text = appState.moviesData[0].releaseDate
-//                            ratingDetails.text = appState.moviesData[0].voteAverage.toString()
-//                            description.text = appState.moviesData[0].overview
-//                        }
-//                    }
-//                })
-//                viewModel.loadData(it.originalTitle)
-//            }
-//        }
+        val movie = arguments?.getParcelable<Movie>(BUNDLE_EXTRA)
+        movie?.let {
+            with(binding) {
+                originalTitleDetails.text = it.originalTitle
+
+                viewModel.liveDataToObserve.observe(viewLifecycleOwner, { appState ->
+                    when (appState) {
+                        is AppState.Error -> {
+                            //sda
+                        }
+                        is AppState.Loading -> {
+                            //sdf
+                        }
+                        is AppState.Success -> {
+                            russianTitleDetails.text = appState.moviesData[0].title
+                            originalTitleDetails.text = appState.moviesData[0].originalTitle
+                            releaseDateDetails.text = appState.moviesData[0].releaseDate
+                            ratingDetails.text = appState.moviesData[0].voteAverage.toString()
+                            description.text = appState.moviesData[0].overview
+                        }
+                    }
+                })
+                viewModel.loadData(it.originalTitle)
+            }
+        }
     }
 
     private fun renderData(movieDTO: MovieDTO) {

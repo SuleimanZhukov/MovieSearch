@@ -1,6 +1,6 @@
 package com.example.moviesearch.model.restentities
 
-data class results(
+data class Results(
     val original_title: String = "Original Title",
     val title: String = "Название",
     val release_date: String = "0-0-0",
