@@ -8,7 +8,7 @@ import retrofit2.http.Query
 interface MovieApi {
     @GET("search/movie?api_key=")
     fun getMovie(
-        @Query("@language=") language: String,
-        @Query("@query") movieName: String
+        @Query("language=") language: String,
+        @Query("query") movieName: String
     ): Call<MovieDTO>
 }
